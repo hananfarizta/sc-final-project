@@ -14,4 +14,5 @@ class Inference:
             ps = torch.exp(logits)
             _, predTest = torch.max(ps,1)
             print("done predicting")
-            print("ps :",ps, "pred :",predTest)
+            print("ps :",_, "pred :",predTest)
+        return predTest

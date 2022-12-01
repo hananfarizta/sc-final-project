@@ -5,6 +5,7 @@ from torchvision.transforms import transforms
 import torch
 import numpy as np
 import base64
+from io import BytesIO
 
 
 class Preprocessing:
@@ -18,11 +19,17 @@ class Preprocessing:
         self.img_name = img_name
 
     def load_image(self):
-        image = Image.open(self.img_name)
+        
+        image = Image.open(BytesIO(base64.b64decode(self.img_name)))
+        # image = Image.open(self.img_name)
         image = self.image_transforms_test(image).float()
         image = image.to(self.device)
         self.image = image.unsqueeze(0)
         # return self.image
+
+    @property
+    def real_image(self):
+        return self.img_name
 
     @property
     def get_image_(self):
