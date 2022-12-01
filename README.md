@@ -13,4 +13,4 @@ Ini adalah contoh project untuk handover tugas akhir Startup Campus AI Track
 6. install requirements.txt ``` pip install -r requirements.txt ```
 
 ## Cara Penggunaan
-cukup menggunakan perintah ```python main.py``` lalu mengisi input yang dibutuhkan oleh sistem.
+cukup menggunakan perintah ```python main.py``` lalu mengisi input yang dibutuhkan oleh sistem dan ubah lokasi load model pada ```model.py``` sesuai dengan lokasi model yang anda inginkan.
