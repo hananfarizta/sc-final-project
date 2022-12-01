@@ -12,7 +12,7 @@ class Model:
         ('fc1', nn.Linear(25088, 4096)),
         ('relu', nn.ReLU()),
         ('drop', nn.Dropout(p = 0.5)),
-        ('fc2', nn.Linear(4096, 10)),
+        ('fc2', nn.Linear(4096, 11)),
         ('output', nn.LogSoftmax(dim = 1))
         ])
     )
@@ -22,7 +22,7 @@ class Model:
         self.load_model()
 
     def load_model(self):
-        self.model.load_state_dict(torch.load("D:\StartUp Campus\sc-akhir2\models\model_fmnist.pt", map_location=torch.device('cpu'))) #torch
+        self.model.load_state_dict(torch.load("models\model_vgg16.pt", map_location=torch.device('cpu'))) #torch
         self.model.eval()
 
     @property
