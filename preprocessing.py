@@ -11,7 +11,8 @@ from io import BytesIO
 class Preprocessing:
     device = torch.device("cpu") 
     image_transforms_test = transforms.Compose([
-        transforms.Resize((64,64)),
+        transforms.Grayscale(num_output_channels=1),
+        transforms.Resize((28,28)),
         transforms.ToTensor(), # For GPU purpose
     ])
 

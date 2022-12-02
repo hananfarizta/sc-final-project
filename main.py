@@ -3,6 +3,7 @@ import numpy as np
 from model import Model
 from preprocessing import Preprocessing
 from inference import Inference
+import torch
 
 
 class Main:
@@ -13,7 +14,9 @@ class Main:
 
     def get_model(self):
         model = Model()
-        model = model.get_model
+        print(model)
+        model = torch.load("/Users/hananfarizta/Desktop/Final-Project-SC/sc-final-project/models/model.pt", map_location=torch.device('cpu')) #torch
+        model.eval()
         return model
 
     def prepare_input(self):
@@ -31,17 +34,16 @@ class Main:
 
     def postpreprocessing(self):
         dict_map = {
-            0:"Angle Boot",
-            1:"Bag",
-            2:"Coat",
+            0:"T-shirt/Top",
+            1:"Trouser",
+            2:"Pullover",
             3:"Dress",
-            4:"Pullover",
-            5:"Sandals",
+            4:"Coat",
+            5:"Sandal",
             6:"Shirt",
             7:"Sneaker",
-            8:"Trouser",
-            9:"T-shirt",
-            10:"Hat"
+            8:"Bag",
+            9:"Ankle Boot"
         }
         label = dict_map[self.result.tolist()[0]]
         self._label = label

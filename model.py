@@ -4,27 +4,35 @@ import torch
 import torch.nn as nn
 import torchvision
 from collections import OrderedDict
+import torch.nn.functional as F
 
-class Model:
-    model = torchvision.models.vgg16(pretrained=True)
-    newClassifier = nn.Sequential(
-    OrderedDict([
-        ('fc1', nn.Linear(25088, 4096)),
-        ('relu', nn.ReLU()),
-        ('drop', nn.Dropout(p = 0.5)),
-        ('fc2', nn.Linear(4096, 11)),
-        ('output', nn.LogSoftmax(dim = 1))
-        ])
-    )
-    model.classifier = newClassifier
 
-    def __init__(self):
-        self.load_model()
+class Model(nn.Module):
+    def _init_(self, in_channels=1):
+        super(Model, self)._init_()
+        
+        self.conv1 = nn.Conv2d(in_channels, 32, 3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, 3)
+        self.maxpool2d = nn.MaxPool2d(2)
+        self.fc1 = nn.Linear(2304, 128)
+        self.drop = nn.Dropout2d(0.5)
+        self.fc2 = nn.Linear(128, 10)
 
-    def load_model(self):
-        self.model.load_state_dict(torch.load("models\model_vgg16.pt", map_location=torch.device('cpu'))) #torch
-        self.model.eval()
+    def forward(self, x):
+    
+        x = self.conv1(x)
+        x = self.maxpool2d(x)
+        x = F.relu(x)
 
-    @property
-    def get_model(self):
-        return self.model
+        x = self.conv2(x)
+        x = self.maxpool2d(x)
+        x = F.relu(x)
+            
+        x = x.view(x.size(0), -1)
+            
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.drop(x)
+        x = self.fc2(x)
+
+        return F.log_softmax(x, dim=1)
